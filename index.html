@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <input>
+    <h1>Hello world !</h1>
+    <div id="label">0</div>
+    <input id="incr"type="button" value="Incrémenter">
+    <input id="decr" type="button" value="Décrémenter">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io(); // permet de manipuler socket.io
+
+        document.getElementById('incr').onclick=function(){
+            socket.emit('increment'); // émet un événement 'increment'
+        };
+
+        socket.on('count', function(count){ // écoute l'évenement 'count'
+            document.getElementById('label').innerText = count; // passe l'événement 'count' (donc le compteur) 
+        });
+
+        document.getElementById('decr').onclick=function(){
+            socket.emit('decrement'); // émet un événement 'decrement'
+        };
+
+        socket.on()
+
+
+    </script>
+  </body>
+</html>
