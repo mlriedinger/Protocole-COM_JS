@@ -7,29 +7,56 @@
   </head>
   <input>
     <h1>Hello world !</h1>
+    
+    <!-- Incrémenter/Décrémenter -->
     <div id="label">0</div>
     <input id="incr"type="button" value="Incrémenter">
     <input id="decr" type="button" value="Décrémenter">
 
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- Modifier une zone de texte -->
+    <div>
+      <input id="textZone" type="text" placeholder="Type here." contenteditable="true">
+      <input id="bold" type="button" value="Bold">
+    </div>
+
+    
+  </body>
+
+  <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io(); // permet de manipuler socket.io
 
+        // Script pour incrémenter/décrémenter
         document.getElementById('incr').onclick=function(){
             socket.emit('increment'); // émet un événement 'increment'
+        };
+
+        document.getElementById('decr').onclick=function(){
+            socket.emit('decrement'); // émet un événement 'decrement'
         };
 
         socket.on('count', function(count){ // écoute l'évenement 'count'
             document.getElementById('label').innerText = count; // passe l'événement 'count' (donc le compteur) 
         });
 
-        document.getElementById('decr').onclick=function(){
-            socket.emit('decrement'); // émet un événement 'decrement'
+        // Script pour modifier la zone de texte
+        document.getElementById('textZone').onchange=function(){
+            socket.emit('modifyText', document.getElementById('textZone').value); 
         };
 
-        socket.on()
+        socket.on('modifiedText', function(modifiedText){
+            console.log(modifiedText);
+            document.getElementById('textZone').value = modifiedText;
+        });
 
+        // Script pour mettre en gras (à finir !)
+        document.getElementById('bold').onclick=function(){
+            socket.emit('modifyBold', document.getElementById('textZone').value);
+        };
 
+        socket.on('modifiedBold', function(modifiedBold){
+            console.log(modifiedBold);
+            document.getElementById.value.execCommand("bold");
+        });
     </script>
-  </body>
 </html>
